@@ -67,69 +67,71 @@ class SpaceMission(BaseModel):
 
 
 def main() -> None:
-    crew_member1 = CrewMember(
-        member_id="SACON",
-        name="Sarah Connor",
-        rank="commander",  # type: ignore[arg-type]
-        age=50,
-        specialization="Mission Command",
-        years_experience=30,
-        is_active=True,
-    )
-    crew_member2 = CrewMember(
-        member_id="JOSMI",
-        name="John Smith",
-        rank="lieutenant",  # type: ignore[arg-type]
-        age=41,
-        specialization="Navigation",
-        years_experience=20,
-        is_active=True,
-    )
-    crew_member3 = CrewMember(
-        member_id="ALJON",
-        name="Alice Jonhson",
-        rank="officer",  # type: ignore[arg-type]
-        age=35,
-        specialization="Engineering",
-        years_experience=4,
-        is_active=True,
-    )
-    valid_mission = SpaceMission(
-            mission_id="M2024_MARS",
-            mission_name="Mars Colony Establishment",
-            destination="Mars",
-            launch_date="2024-04-24T09:00:00",  # type: ignore[arg-type]
-            duration_days=900,
-            crew=[crew_member1, crew_member2, crew_member3],
-            budget_millions=2500,
-    )
-
-    print("=============================")
-    print("Valid mission created")
-    print(
-        f"Mission: {valid_mission.mission_name}\n"
-        f"ID: {valid_mission.mission_id}\n"
-        f"Destination: {valid_mission.destination}\n"
-        f"Duration: {valid_mission.duration_days} days\n"
-        f"Budget: ${valid_mission.duration_days}M\n"
-        f"Crew size: {len(valid_mission.crew)}\n"
-        f"Crew members:"
-    )
-    for member in valid_mission.crew:
-        print(f"-{member.name} ({member.rank.value}) -{member.specialization}")
-
-    crew_member4 = CrewMember(
-        member_id="PETST",
-        name="Peter Stein",
-        rank="cadet",  # type: ignore[arg-type]
-        age=21,
-        specialization="Trainee",
-        years_experience=1,
-        is_active=True,
-    )
-    print("\n=============================")
-    print("Expected validation error")
     try:
+        crew_member1 = CrewMember(
+            member_id="SACON",
+            name="Sarah Connor",
+            rank="commander",  # type: ignore[arg-type]
+            age=50,
+            specialization="Mission Command",
+            years_experience=30,
+            is_active=True,
+        )
+        crew_member2 = CrewMember(
+            member_id="JOSMI",
+            name="John Smith",
+            rank="lieutenant",  # type: ignore[arg-type]
+            age=41,
+            specialization="Navigation",
+            years_experience=20,
+            is_active=True,
+        )
+        crew_member3 = CrewMember(
+            member_id="ALJON",
+            name="Alice Jonhson",
+            rank="officer",  # type: ignore[arg-type]
+            age=35,
+            specialization="Engineering",
+            years_experience=4,
+            is_active=True,
+        )
+        valid_mission = SpaceMission(
+                mission_id="M2024_MARS",
+                mission_name="Mars Colony Establishment",
+                destination="Mars",
+                launch_date="2024-04-24T09:00:00",  # type: ignore[arg-type]
+                duration_days=900,
+                crew=[crew_member1, crew_member2, crew_member3],
+                budget_millions=2500,
+        )
+
+        print("=============================")
+        print("Valid mission created")
+        print(
+            f"Mission: {valid_mission.mission_name}\n"
+            f"ID: {valid_mission.mission_id}\n"
+            f"Destination: {valid_mission.destination}\n"
+            f"Duration: {valid_mission.duration_days} days\n"
+            f"Budget: ${valid_mission.duration_days}M\n"
+            f"Crew size: {len(valid_mission.crew)}\n"
+            f"Crew members:"
+        )
+        for member in valid_mission.crew:
+            print(f"-{member.name} ({member.rank.value}) -{member.specialization}")
+
+        crew_member4 = CrewMember(
+            member_id="PETST",
+            name="Peter Stein",
+            rank="cadet",  # type: ignore[arg-type]
+            age=21,
+            specialization="Trainee",
+            years_experience=1,
+            is_active=True,
+        )
+        print("\n=============================")
+        print("Expected validation error")
+
+        # invalid data input
         SpaceMission(
             mission_id="M2024_VENUS",
             mission_name="Venus Attempt Landing",
@@ -141,7 +143,7 @@ def main() -> None:
         )
     except ValidationError as err:
         for e in err.errors():
-            print(e["ctx"]["error"])
+            print(e["msg"])
 
 
 if __name__ == "__main__":
