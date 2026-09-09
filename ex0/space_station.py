@@ -19,32 +19,34 @@ class SpaceStation(BaseModel):
 
 
 def main() -> None:
-    valid_station = SpaceStation(  # type: ignore[call-arg]
-        station_id="ISS001",
-        name="International Space Station",
-        crew_size=6,
-        last_maintenance="2026-06-13",  # type: ignore[arg-type]
-        power_level=85.5,
-        oxygen_level=92.3,
-        is_operational=True,
-    )
-    print("===================================")
-    print(
-          "Valid station created:\n"
-          f"ID: {valid_station.station_id}\n"
-          f"Name: {valid_station.name}\n"
-          f"Crew: {valid_station.crew_size} people\n"
-          f"Power: {valid_station.power_level}%\n"
-          f"Oxygen: {valid_station.oxygen_level}%\n"
-         )
-    if valid_station.is_operational:
-        print("Status: Operational")
-    else:
-        print("Status: Not operational")
-    print("\n===================================")
-
-    print("Expected Validation Error:")
     try:
+        valid_station = SpaceStation(  # type: ignore[call-arg]
+            station_id="ISS001",
+            name="International Space Station",
+            crew_size=6,
+            last_maintenance="2026-06-13",  # type: ignore[arg-type]
+            power_level=85.5,
+            oxygen_level=92.3,
+            is_operational=True,
+        )
+        print("===================================")
+        print(
+            "Valid station created:\n"
+            f"ID: {valid_station.station_id}\n"
+            f"Name: {valid_station.name}\n"
+            f"Crew: {valid_station.crew_size} people\n"
+            f"Power: {valid_station.power_level}%\n"
+            f"Oxygen: {valid_station.oxygen_level}%\n"
+            )
+        if valid_station.is_operational:
+            print("Status: Operational")
+        else:
+            print("Status: Not operational")
+        print("\n===================================")
+
+        print("Expected Validation Error:")
+
+        # testing invalid data input
         SpaceStation(  # type: ignore[call-arg]
             station_id="ISS001",
             name="International Space Station",

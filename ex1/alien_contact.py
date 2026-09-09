@@ -47,29 +47,32 @@ class AlienContact(BaseModel):
 def main() -> None:
     print("==================================")
     print("Valid Contact Report")
-    contact_1 = AlienContact(
-        contact_id="AC_2024_01",
-        timestamp="2024-04-20T09:42:42",  # type: ignore[arg-type]
-        location="Area 51, Nevada",
-        contact_type=ContactType.RADIO,
-        signal_strength="8.5",  # type: ignore[arg-type]
-        duration_minutes="45",  # type: ignore[arg-type]
-        witness_count="5",  # type: ignore[arg-type]
-        message_received="Greetings from Zeta Reticuli",
-        is_verified="True",  # type: ignore[arg-type]
-    )
-    print(
-        f"ID: {contact_1.contact_id}\n"
-        f"Type: {contact_1.contact_type.value}\n"
-        f"Location: {contact_1.location}\n"
-        f"Signal: {contact_1.signal_strength}/10\n"
-        f"Duration: {contact_1.duration_minutes} minutes\n"
-        f"Witnesses: {contact_1.witness_count}\n"
-        f"Message: {contact_1.message_received}\n"
-    )
-    print("==================================\n")
-    print("Expected validation error")
+
     try:
+        contact_1 = AlienContact(
+            contact_id="AC_2024_01",
+            timestamp="2024-04-20T09:42:42",  # type: ignore[arg-type]
+            location="Area 51, Nevada",
+            contact_type=ContactType.RADIO,
+            signal_strength="8.5",  # type: ignore[arg-type]
+            duration_minutes="45",  # type: ignore[arg-type]
+            witness_count="5",  # type: ignore[arg-type]
+            message_received="Greetings from Zeta Reticuli",
+            is_verified="True",  # type: ignore[arg-type]
+        )
+        print(
+            f"ID: {contact_1.contact_id}\n"
+            f"Type: {contact_1.contact_type.value}\n"
+            f"Location: {contact_1.location}\n"
+            f"Signal: {contact_1.signal_strength}/10\n"
+            f"Duration: {contact_1.duration_minutes} minutes\n"
+            f"Witnesses: {contact_1.witness_count}\n"
+            f"Message: {contact_1.message_received}\n"
+        )
+        print("==================================\n")
+        print("Expected validation error")
+
+        # testing invalid data input
         AlienContact(
             contact_id="AC_2024_02",
             timestamp="2024-09-20T09:42:42",  # type: ignore[arg-type]
@@ -81,11 +84,9 @@ def main() -> None:
             message_received="Greetings from Beta Yuli",
             is_verified="True",  # type: ignore[arg-type]
         )
-# e["msg"] tem prefixo "Value error, " acrescentado pelo Pydantic.
-# e["ctx"]["error"] é o ValueError original -> str() dá a msg limpa.
     except ValidationError as err:
         for e in err.errors():
-            print(e["ctx"]["error"])
+            print(e['msg'])
 
 
 if __name__ == "__main__":
