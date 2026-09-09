@@ -117,7 +117,9 @@ def main() -> None:
             f"Crew members:"
         )
         for member in valid_mission.crew:
-            print(f"-{member.name} ({member.rank.value}) -{member.specialization}")
+            print(
+                f"-{member.name} ({member.rank.value})-{member.specialization}"
+                )
 
         crew_member4 = CrewMember(
             member_id="PETST",
