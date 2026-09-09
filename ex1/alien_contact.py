@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Optional
 from enum import Enum
 
+
 class ContactType(Enum):
     RADIO = "radio"
     VISUAL = "visual"
@@ -21,19 +22,19 @@ class AlienContact(BaseModel):
     witness_count: int = Field(ge=1, le=100)
     message_received: Optional[str] = Field(None, max_length=500)
     is_verified: bool = False
-    
+
     @model_validator(mode='after')
     def validate_contact(self):
         if self.contact_id[:2] != "AC":
             raise ValueError("Contact ID must start with 'AC'")
         if (self.contact_type == ContactType.PHYSICAL
-            and not self.is_verified):
-                raise ValueError("Physical contact reports must be verified")
+                and not self.is_verified):
+            raise ValueError("Physical contact reports must be verified")
         if (self.contact_type is ContactType.TELEPATHIC
-            and self.witness_count < 3):
-                raise ValueError(
-                    "Telepathic contact requires at least 3 witnesses"
-                    )
+                and self.witness_count < 3):
+            raise ValueError(
+                "Telepathic contact requires at least 3 witnesses"
+                )
         if self.signal_strength > 7.0 and self.message_received is None:
             raise ValueError(
                 "Strong signals (> 7.0) should include received messages"
@@ -48,14 +49,14 @@ def main() -> None:
     print("Valid Contact Report")
     contact_1 = AlienContact(
         contact_id="AC_2024_01",
-        timestamp="2024-04-20T09:42:42",
+        timestamp="2024-04-20T09:42:42",  # type: ignore[arg-type]
         location="Area 51, Nevada",
         contact_type=ContactType.RADIO,
-        signal_strength="8.5",
-        duration_minutes="45",
-        witness_count="5",
+        signal_strength="8.5",  # type: ignore[arg-type]
+        duration_minutes="45",  # type: ignore[arg-type]
+        witness_count="5",  # type: ignore[arg-type]
         message_received="Greetings from Zeta Reticuli",
-        is_verified="True",
+        is_verified="True",  # type: ignore[arg-type]
     )
     print(
         f"ID: {contact_1.contact_id}\n"
@@ -69,22 +70,23 @@ def main() -> None:
     print("==================================\n")
     print("Expected validation error")
     try:
-        contact_2=AlienContact(
+        AlienContact(
             contact_id="AC_2024_02",
-            timestamp="2024-09-20T09:42:42",
+            timestamp="2024-09-20T09:42:42",  # type: ignore[arg-type]
             location="Area 51, Nevada",
-            contact_type="telepathic",
-            signal_strength="7.5",
-            duration_minutes="100",
-            witness_count="2",
+            contact_type="telepathic",  # type: ignore[arg-type]
+            signal_strength="7.5",  # type: ignore[arg-type]
+            duration_minutes="100",  # type: ignore[arg-type]
+            witness_count="2",  # type: ignore[arg-type]
             message_received="Greetings from Beta Yuli",
-            is_verified="True",
+            is_verified="True",  # type: ignore[arg-type]
         )
 # e["msg"] tem prefixo "Value error, " acrescentado pelo Pydantic.
 # e["ctx"]["error"] é o ValueError original -> str() dá a msg limpa.
     except ValidationError as err:
         for e in err.errors():
             print(e["ctx"]["error"])
+
 
 if __name__ == "__main__":
     print("Alien Contact Validation Log")
