@@ -42,11 +42,11 @@ def main() -> None:
             print("Status: Operational")
         else:
             print("Status: Not operational")
+
         print("\n===================================")
 
-        print("Expected Validation Error:")
-
         # testing invalid data input
+        print("Expected Validation Error:")
         SpaceStation(  # type: ignore[call-arg]
             station_id="ISS001",
             name="International Space Station",

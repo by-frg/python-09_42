@@ -33,7 +33,7 @@ class SpaceMission(BaseModel):
     budget_millions: float = Field(ge=1.0, le=10000.0)
 
     @model_validator(mode='after')
-    def validate_mission(self):
+    def validate_mission(self) -> "SpaceMission":
         if self.mission_id[0] != "M":
             raise ValueError("Mission ID must start with 'M'")
 
@@ -114,6 +114,7 @@ def main() -> None:
             f"Duration: {valid_mission.duration_days} days\n"
             f"Budget: ${valid_mission.duration_days}M\n"
             f"Crew size: {len(valid_mission.crew)}\n"
+            f"Mission Status: {valid_mission.mission_status}\n"
             f"Crew members:"
         )
         for member in valid_mission.crew:
@@ -121,19 +122,20 @@ def main() -> None:
                 f"-{member.name} ({member.rank.value})-{member.specialization}"
                 )
 
+        print("\n=============================")
+
+        # invalid data input
+        print("Expected validation error")
+
         crew_member4 = CrewMember(
-            member_id="PETST",
+            member_id="PETSTE",
             name="Peter Stein",
             rank="cadet",  # type: ignore[arg-type]
             age=21,
             specialization="Trainee",
-            years_experience=1,
-            is_active=True,
+            years_experience=15,
         )
-        print("\n=============================")
-        print("Expected validation error")
 
-        # invalid data input
         SpaceMission(
             mission_id="M2024_VENUS",
             mission_name="Venus Attempt Landing",

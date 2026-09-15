@@ -24,7 +24,7 @@ class AlienContact(BaseModel):
     is_verified: bool = False
 
     @model_validator(mode='after')
-    def validate_contact(self):
+    def validate_contact(self) -> "AlienContact":
         if self.contact_id[:2] != "AC":
             raise ValueError("Contact ID must start with 'AC'")
         if (self.contact_type == ContactType.PHYSICAL
@@ -42,8 +42,6 @@ class AlienContact(BaseModel):
         return self
 
 
-# contact_type is a member of the contacttype object
-# to print it we have to call it with .value
 def main() -> None:
     print("==================================")
     print("Valid Contact Report")
@@ -69,10 +67,11 @@ def main() -> None:
             f"Witnesses: {contact_1.witness_count}\n"
             f"Message: {contact_1.message_received}\n"
         )
+
         print("==================================\n")
-        print("Expected validation error")
 
         # testing invalid data input
+        print("Expected validation error")
         AlienContact(
             contact_id="AC_2024_02",
             timestamp="2024-09-20T09:42:42",  # type: ignore[arg-type]
